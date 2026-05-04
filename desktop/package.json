@@ -1,0 +1,28 @@
+{
+    "name":  "jarvis-desktop",
+    "version":  "0.1.0",
+    "private":  true,
+    "type":  "module",
+    "main":  "electron/main.js",
+    "scripts":  {
+                    "dev":  "vite --host 127.0.0.1",
+                    "electron":  "electron .",
+                    "dev:electron":  "concurrently \"npm run dev\" \"wait-on http://127.0.0.1:5173 && cross-env JARVIS_DESKTOP_MODE=dev npm run electron\"",
+                    "desktop":  "npm run build && npm run electron",
+                    "build":  "vite build"
+                },
+    "dependencies":  {
+                         "@vitejs/plugin-react":  "latest",
+                         "vite":  "latest",
+                         "typescript":  "latest",
+                         "react":  "latest",
+                         "react-dom":  "latest",
+                         "electron":  "latest",
+                         "concurrently":  "latest",
+                         "wait-on":  "latest",
+                         "cross-env":  "latest"
+                     },
+    "devDependencies":  {
+
+                        }
+}

@@ -74,7 +74,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "f54f3096c31ed324",
@@ -178,6 +179,43 @@
   },
   "active": "489935c003561e53",
   "lastOpenFiles": [
+    "desktop/dist/assets/index-Ctkjb4lO.js",
+    "desktop/node_modules/react-dom/index.js",
+    "desktop/node_modules/react/jsx-runtime.js",
+    "desktop/node_modules/react/index.js",
+    "desktop/node_modules/react-dom/client.js",
+    "desktop/node_modules/react-dom/package.json",
+    "desktop/node_modules/react/package.json",
+    "desktop/node_modules/@vitejs/plugin-react/dist/refresh-runtime.js",
+    "desktop/node_modules/@vitejs/plugin-react/dist/index.d.ts",
+    "desktop/node_modules/@vitejs/plugin-react/dist/index.js",
+    "desktop/node_modules/@vitejs/plugin-react/dist",
+    "desktop/node_modules/dunder-proto/README.md",
+    "desktop/node_modules/y18n/README.md",
+    "desktop/node_modules/y18n/CHANGELOG.md",
+    "desktop/node_modules/wait-on/README.md",
+    "desktop/node_modules/typescript/SECURITY.md",
+    "desktop/node_modules/typescript/README.md",
+    "desktop/node_modules/rolldown/README.md",
+    "desktop/node_modules/rolldown/node_modules/@rolldown/pluginutils/README.md",
+    "desktop/node_modules/progress/Readme.md",
+    "desktop/node_modules/progress/CHANGELOG.md",
+    "desktop/node_modules/get-intrinsic/README.md",
+    "desktop/node_modules/get-intrinsic/CHANGELOG.md",
+    "desktop/node_modules/fs-extra/CHANGELOG.md",
+    "desktop/node_modules/form-data/README.md",
+    "desktop/node_modules/form-data/CHANGELOG.md",
+    "desktop/node_modules/follow-redirects/README.md",
+    "desktop/node_modules/fdir/README.md",
+    "desktop/node_modules/debug/README.md",
+    "desktop/node_modules/concurrently/README.md",
+    "desktop/node_modules/quick-lru/readme.md",
+    "desktop/node_modules/json-buffer/README.md",
+    "desktop/node_modules/normalize-url/readme.md",
+    "desktop/node_modules/cacheable-lookup/README.md",
+    "desktop/node_modules/yauzl/README.md",
+    "desktop/node_modules/once/README.md",
+    "desktop/node_modules/concurrently/docs/demo.gif",
     "무제.canvas"
   ]
 }

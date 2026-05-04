@@ -19,6 +19,14 @@ JARVIS is designed as a desktop AI control plane composed of:
 - [[Layered_Runtime_and_Data_Flow]]
 - [[Project_Structure]]
 - [[Scaling_Strategy]]
+- [[Cost_and_Budget_Model]]
+- [[Cost_Calculation_Worksheet]]
+- [[Voice_Runtime_Design]]
+- [[Memory_and_Privacy_Model]]
+- [[Persistence_and_Data_Model]]
+- [[Desktop_UI_Spec]]
+- [[Voice_First_Minimal_UI]]
+- [[Setup_and_Deployment]]
 
 ## Agent & Model Entry Points
 - [[Agent_Runtime]]
@@ -26,19 +34,27 @@ JARVIS is designed as a desktop AI control plane composed of:
 - [[Model_Routing_Architecture]]
 - [[Model_Router_Design]]
 - [[Open_Interpreter_Runtime]]
+- [[Failure_Recovery_and_Budgets]]
+- [[Local_Model_Benchmarking]]
 
 ## Tooling Entry Points
 - [[Tool_Invocation_Model]]
 - [[Tool_Registry_Design]]
+- [[API_and_Tool_Contracts]]
+- [[First_Party_Tool_Schemas]]
 
 ## Security Entry Points
 - [[Security_Model]]
 - [[Permission_and_Approval_Model]]
 - [[Docker_Isolation_Strategy]]
+- [[Windows_Host_Policy]]
+- [[OAuth_and_Secrets_Model]]
 
 ## Workflow Entry Points
 - [[Execution_Flows]]
 - [[Developer_Workflows]]
+- [[Evaluation_and_Acceptance]]
+- [[Test_Automation_Strategy]]
 
 ## Decision Records
 - [[Documentation_Refactor_Audit]]
@@ -60,8 +76,15 @@ JARVIS is designed as a desktop AI control plane composed of:
 - [[Model_Router_Design]]
 - [[Open_Interpreter_Runtime]]
 - [[Tool_Invocation_Model]]
+- [[API_and_Tool_Contracts]]
 - [[Docker_Isolation_Strategy]]
 - [[Security/Security_Model|Security_Model]]
+- [[Windows_Host_Policy]]
+- [[OAuth_and_Secrets_Model]]
+- [[Cost_and_Budget_Model]]
+- [[Cost_Calculation_Worksheet]]
+- [[Evaluation_and_Acceptance]]
+- [[Test_Automation_Strategy]]
 - [[Execution_Flows]]
 
 ## Legacy Documentation

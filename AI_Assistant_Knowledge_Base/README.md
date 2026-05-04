@@ -27,6 +27,22 @@ The most important consequence is that documentation is now organized around exe
 10. [[Model_Router_Design]]
 11. [[Project_Structure]]
 12. [[Scaling_Strategy]]
+13. [[Cost_and_Budget_Model]]
+14. [[Evaluation_and_Acceptance]]
+15. [[Voice_Runtime_Design]]
+16. [[Memory_and_Privacy_Model]]
+17. [[Failure_Recovery_and_Budgets]]
+18. [[API_and_Tool_Contracts]]
+19. [[Windows_Host_Policy]]
+20. [[OAuth_and_Secrets_Model]]
+21. [[Persistence_and_Data_Model]]
+22. [[First_Party_Tool_Schemas]]
+23. [[Cost_Calculation_Worksheet]]
+24. [[Test_Automation_Strategy]]
+25. [[Desktop_UI_Spec]]
+26. [[Voice_First_Minimal_UI]]
+27. [[Local_Model_Benchmarking]]
+28. [[Setup_and_Deployment]]
 
 ## Vault Structure
 - `Architecture/`
@@ -37,12 +53,44 @@ The most important consequence is that documentation is now organized around exe
   - Open Interpreter integration and execution runtime
 - `MCP/`
   - tool registry, invocation contract, examples
+- `MCP/API_and_Tool_Contracts.md`
+  - stable envelopes for requests, approvals, tools, and results
+- `MCP/First_Party_Tool_Schemas.md`
+  - concrete MVP schemas for filesystem, git, news, stocks, and Gmail tools
+- `Architecture/Cost_and_Budget_Model.md`
+  - runtime cost limits and budget failure behavior
+- `Architecture/Cost_Calculation_Worksheet.md`
+  - monthly cost worksheet and runtime counters
+- `Architecture/Voice_Runtime_Design.md`
+  - local and cloud voice pipeline constraints
+- `Architecture/Memory_and_Privacy_Model.md`
+  - long-term memory policy and privacy controls
+- `Architecture/Persistence_and_Data_Model.md`
+  - active SQLite/Postgres schema baseline
+- `Architecture/Desktop_UI_Spec.md`
+  - MVP desktop views, approval cards, and activity log events
+- `Architecture/Voice_First_Minimal_UI.md`
+  - voice-first HUD-inspired minimal UI and chat fallback design
+- `Architecture/Setup_and_Deployment.md`
+  - local development startup, health checks, and environment variables
+- `Agent/Failure_Recovery_and_Budgets.md`
+  - retry limits, circuit breakers, and fail-closed behavior
+- `Agent/Local_Model_Benchmarking.md`
+  - local model acceptance tests for routing and tool planning
+- `Workflows/Evaluation_and_Acceptance.md`
+  - release gates and golden test commands
+- `Workflows/Test_Automation_Strategy.md`
+  - automated unit, contract, integration, agent, and UI test plan
 - `Docker/`
   - sandboxing, container lifecycle, isolation policies
 - `Workflows/`
   - end-to-end execution flows and developer workflows
 - `Security/`
   - permission gates, safe execution, filesystem policy
+- `Security/Windows_Host_Policy.md`
+  - Windows path, PowerShell, and host action restrictions
+- `Security/OAuth_and_Secrets_Model.md`
+  - token handling, OAuth scopes, and secret redaction
 - `Decisions/`
   - refactor audit and architectural decisions
 
