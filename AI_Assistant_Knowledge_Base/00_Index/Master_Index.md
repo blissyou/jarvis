@@ -56,6 +56,12 @@ JARVIS is designed as a desktop AI control plane composed of:
 - [[Evaluation_and_Acceptance]]
 - [[Test_Automation_Strategy]]
 
+## OpenClaw Migration Entry Points
+- [[OpenClaw_Runtime_Architecture]]
+- [[OpenClaw_Migration_Plan]]
+- [[OpenClaw_Workspace_Strategy]]
+- [[ADR_004_OpenClaw_Runtime_Adoption]]
+
 ## Decision Records
 - [[Documentation_Refactor_Audit]]
 - [[ADR_001_Local_First_Desktop_Agent]]
