@@ -5,14 +5,20 @@
 Define the target architecture for changing JARVIS into an OpenClaw-powered local desktop AI agent instead of a fully custom runtime.
 
 ## Target Architecture Summary
-JARVIS becomes a product layer on top of OpenClaw.
+JARVIS becomes a voice-first product layer on top of OpenClaw, not a competing agent runtime.
+
+OpenClaw owns the execution substrate: gateway, sessions, tools, approvals, scheduled work, workspace context, and sub-agents. JARVIS owns the product experience: wake/push-to-talk UX, speech pipeline, transcript display, persona, domain-specific skills, and opinionated safety defaults.
 
 ```mermaid
 flowchart LR
     U["User"] --> TG["Telegram / Mobile Chat"]
     U --> DESK["JARVIS Electron HUD"]
+    U --> MIC["Microphone / Push-to-talk"]
 
-    TG --> OC["OpenClaw Gateway"]
+    MIC --> VL["JARVIS Voice Layer"]
+    VL --> DESK
+    VL --> OC["OpenClaw Gateway"]
+    TG --> OC
     DESK --> OC
 
     OC --> AG["OpenClaw Agent Runtime"]
@@ -25,6 +31,8 @@ flowchart LR
     SK --> DOMAIN["Gmail / Stocks / News / Dev Tools"]
     TOOLS --> HOST["Local Mac / Project Files"]
     WS --> KB["Obsidian Knowledge Base"]
+    AG --> VL
+    VL --> TTS["Spoken Response"]
 ```
 
 ## Layer Responsibilities
@@ -53,7 +61,24 @@ Candidate skills:
 - Obsidian knowledge-base maintenance
 - voice/HUD commands
 
-### 5. Electron Desktop HUD
+### 5. JARVIS Voice Layer
+The Voice Layer is the main JARVIS-owned product surface above OpenClaw.
+
+Responsibilities:
+- capture microphone input through push-to-talk or explicit recording controls
+- run STT and normalize transcripts before sending them to OpenClaw
+- stream or display partial transcript state in the HUD
+- send user turns to OpenClaw Gateway as normal agent messages
+- receive final assistant output and convert the conversational part to TTS
+- surface approval-required actions visually instead of speaking them as already-done work
+- preserve a text fallback when STT/TTS fails
+
+Non-responsibilities:
+- it must not execute tools directly
+- it must not bypass OpenClaw approval flows
+- it must not own long-term memory, cron, channel routing, or privileged local actions
+
+### 6. Electron Desktop HUD
 The desktop app should become a local UI client for OpenClaw rather than the owner of privileged actions.
 
 It should show:
@@ -77,6 +102,7 @@ It should show:
 
 ## Components To Keep
 - Electron/React voice-first HUD
+- JARVIS Voice Layer for STT/TTS, transcript handling, and spoken UX
 - Obsidian knowledge base
 - product-specific workflows
 - local model preferences
@@ -101,3 +127,4 @@ It should show:
 - [[OpenClaw_Workspace_Strategy]]
 - [[Desktop_UI_Spec]]
 - [[Voice_First_Minimal_UI]]
+- [[Voice_Runtime_Design]]

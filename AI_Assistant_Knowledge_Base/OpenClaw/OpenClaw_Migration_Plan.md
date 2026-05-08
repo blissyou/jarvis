@@ -7,6 +7,11 @@ Define a practical migration plan for changing JARVIS from a custom local agent 
 ## Migration Principle
 Use OpenClaw for the boring but difficult runtime layer. Keep JARVIS for the product experience, local workflows, voice interface, and opinionated personal-assistant behavior.
 
+The target shape is **OpenClaw + JARVIS Voice Layer**:
+- OpenClaw handles agent runtime, channels, approvals, tools, memory/workspace context, and background tasks.
+- JARVIS Voice Layer handles microphone capture, STT, transcript UX, TTS, and the voice-first desktop feel.
+- JARVIS skills package product-specific capabilities without rebuilding OpenClaw's runtime.
+
 ## Phase 0 - Inventory
 Status: active
 
@@ -69,12 +74,16 @@ Tasks:
 - Show session state, tool activity, and approval cards.
 - Keep voice-first UI, but let OpenClaw own execution.
 - Add a settings panel for current workspace, model, heartbeat, and channel status.
+- Add the JARVIS Voice Layer as a thin STT/TTS and transcript wrapper around OpenClaw messages.
+- Ensure voice output never implies an approval-required action has completed before OpenClaw approval is granted.
 
 Acceptance checks:
 - typed prompt from desktop reaches OpenClaw.
 - approval-required action appears as an approval card.
 - background task status is visible.
 - failed tool calls are shown safely.
+- spoken responses work for read-only answers and degrade to text when STT/TTS fails.
+- approval-required actions are shown as cards and spoken as pending, not completed.
 
 ## Phase 4 - Retire Or Re-scope FastAPI
 Goal: remove duplicated runtime code or make it a thin product adapter.
@@ -94,11 +103,27 @@ Tasks:
 - Add regression checks for approval bypass, destructive actions, and silent cloud escalation.
 - Document recovery steps for Gateway/config/session failures.
 
+## MVP Non-Goal: Payments And Financial Transactions
+Financial data lookup remains allowed for informational briefings, but JARVIS must not execute or prepare money movement in the MVP.
+
+Explicitly excluded from MVP:
+- payments, transfers, remittances, and bill payment
+- stock/crypto/FX order placement
+- brokerage trading, portfolio rebalancing, or automated investment actions
+- card, bank, wallet, or exchange actions that move funds or create financial obligations
+- storing payment credentials beyond read-only API tokens required for informational data
+
+Allowed MVP finance scope:
+- read-only stock or market information
+- source-linked market/news briefings
+- clearly non-advisory summaries that do not claim to make investment decisions
+
 ## Immediate Next Actions
 1. Decide whether the active OpenClaw workspace should stay at `~/.openclaw/workspace` or become a JARVIS-specific workspace.
 2. Create a JARVIS OpenClaw workspace profile if needed.
 3. Convert key knowledge-base rules into OpenClaw bootstrap files.
-4. Pick the first real skill to implement: Gmail, stocks, or Obsidian maintenance.
+4. Build the first Voice Layer pass: push-to-talk transcript -> OpenClaw message -> TTS/text fallback.
+5. Pick the first real skill to implement: Gmail, stocks, or Obsidian maintenance.
 
 ## Related Documents
 - [[ADR_004_OpenClaw_Runtime_Adoption]]
