@@ -35,6 +35,16 @@ flowchart LR
     VL --> TTS["Spoken Response"]
 ```
 
+## Architecture Visual
+
+Figma-importable SVG diagram:
+
+```text
+AI_Assistant_Knowledge_Base/OpenClaw/assets/jarvis-openclaw-architecture.svg
+```
+
+Detailed visual documentation: [[OpenClaw_Architecture_Visual]]
+
 ## Layer Responsibilities
 ### 1. OpenClaw Gateway
 Owns runtime hosting, channel delivery, sessions, task scheduling, config, and tool wiring.
@@ -125,6 +135,7 @@ It should show:
 - [[ADR_004_OpenClaw_Runtime_Adoption]]
 - [[OpenClaw_Migration_Plan]]
 - [[OpenClaw_Workspace_Strategy]]
+- [[OpenClaw_Architecture_Visual]]
 - [[Desktop_UI_Spec]]
 - [[Voice_First_Minimal_UI]]
 - [[Voice_Runtime_Design]]

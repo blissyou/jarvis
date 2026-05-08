@@ -1,0 +1,155 @@
+<svg width="1600" height="1000" viewBox="0 0 1600 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="1000" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#050A12"/>
+      <stop offset="0.55" stop-color="#071827"/>
+      <stop offset="1" stop-color="#020611"/>
+    </linearGradient>
+    <linearGradient id="jarvis" x1="120" y1="160" x2="680" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00E5FF" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#00FFA8" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="openclaw" x1="720" y1="160" x2="1480" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A78BFA" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#38BDF8" stop-opacity="0.08"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="9" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="arrowCyan" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2 2L10 6L2 10" stroke="#00E5FF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2 2L10 6L2 10" stroke="#A78BFA" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2 2L10 6L2 10" stroke="#00FFA8" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      .title{font:700 44px Inter,Arial,sans-serif;fill:#E8FBFF;letter-spacing:-0.02em}
+      .subtitle{font:400 20px Inter,Arial,sans-serif;fill:#8FB7C8}
+      .section{font:700 20px Inter,Arial,sans-serif;fill:#E8FBFF;letter-spacing:0.08em}
+      .label{font:700 22px Inter,Arial,sans-serif;fill:#E8FBFF}
+      .small{font:500 15px Inter,Arial,sans-serif;fill:#9EC7D7}
+      .tiny{font:500 13px Inter,Arial,sans-serif;fill:#8FB7C8}
+      .box{fill:#091521;stroke:#1D6A7A;stroke-width:2;rx:22;filter:url(#glow)}
+      .box2{fill:#111326;stroke:#6D5DD3;stroke-width:2;rx:22;filter:url(#glow)}
+      .box3{fill:#0B1C17;stroke:#00A878;stroke-width:2;rx:22;filter:url(#glow)}
+      .danger{fill:#21120B;stroke:#FFB020;stroke-width:2;rx:18}
+      .muted{fill:#0A111B;stroke:#28465A;stroke-width:1.5;rx:16}
+      .lineC{stroke:#00E5FF;stroke-width:3;marker-end:url(#arrowCyan);fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .lineP{stroke:#A78BFA;stroke-width:3;marker-end:url(#arrowPurple);fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .lineG{stroke:#00FFA8;stroke-width:3;marker-end:url(#arrowGreen);fill:none;stroke-linecap:round;stroke-linejoin:round}
+      .dash{stroke-dasharray:9 8}
+    </style>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <circle cx="240" cy="190" r="210" fill="#00E5FF" opacity="0.06"/>
+  <circle cx="1320" cy="190" r="260" fill="#A78BFA" opacity="0.07"/>
+  <circle cx="1240" cy="840" r="260" fill="#00FFA8" opacity="0.045"/>
+
+  <text x="80" y="82" class="title">JARVIS on OpenClaw Architecture</text>
+  <text x="82" y="118" class="subtitle">Voice-first product layer on top of OpenClaw runtime · execution and approvals stay inside OpenClaw</text>
+
+  <rect x="80" y="155" width="610" height="710" rx="34" fill="url(#jarvis)" stroke="#00E5FF" stroke-opacity="0.35" stroke-width="2"/>
+  <text x="116" y="198" class="section">JARVIS PRODUCT LAYER</text>
+
+  <rect x="735" y="155" width="785" height="710" rx="34" fill="url(#openclaw)" stroke="#A78BFA" stroke-opacity="0.38" stroke-width="2"/>
+  <text x="772" y="198" class="section">OPENCLAW RUNTIME LAYER</text>
+
+  <!-- User inputs -->
+  <rect x="120" y="245" width="220" height="92" class="muted"/>
+  <text x="148" y="283" class="label">User</text>
+  <text x="148" y="311" class="small">voice / chat / HUD</text>
+
+  <rect x="400" y="230" width="230" height="96" class="box"/>
+  <text x="430" y="270" class="label">Microphone</text>
+  <text x="430" y="299" class="small">push-to-talk capture</text>
+
+  <rect x="395" y="380" width="250" height="136" class="box"/>
+  <text x="425" y="422" class="label">JARVIS Voice Layer</text>
+  <text x="425" y="454" class="small">STT · transcript · TTS</text>
+  <text x="425" y="482" class="tiny">does not execute tools</text>
+
+  <rect x="130" y="390" width="220" height="126" class="box"/>
+  <text x="160" y="431" class="label">Electron HUD</text>
+  <text x="160" y="462" class="small">state · transcript</text>
+  <text x="160" y="489" class="small">approval cards</text>
+
+  <rect x="130" y="575" width="235" height="110" class="box3"/>
+  <text x="160" y="617" class="label">Spoken Response</text>
+  <text x="160" y="649" class="small">TTS with text fallback</text>
+
+  <rect x="410" y="575" width="235" height="110" class="danger"/>
+  <text x="438" y="617" class="label">MVP Non-goal</text>
+  <text x="438" y="648" class="small">payments · transfers</text>
+  <text x="438" y="673" class="small">orders · trades</text>
+
+  <!-- OpenClaw -->
+  <rect x="790" y="245" width="255" height="108" class="box2"/>
+  <text x="820" y="289" class="label">OpenClaw Gateway</text>
+  <text x="820" y="321" class="small">channels · config · sessions</text>
+
+  <rect x="1090" y="245" width="260" height="108" class="box2"/>
+  <text x="1120" y="289" class="label">Agent Runtime</text>
+  <text x="1120" y="321" class="small">planning · tool calls</text>
+
+  <rect x="790" y="420" width="240" height="116" class="box2"/>
+  <text x="820" y="462" class="label">Workspace</text>
+  <text x="820" y="493" class="small">AGENTS · SOUL</text>
+  <text x="820" y="518" class="small">memory · tools notes</text>
+
+  <rect x="1085" y="420" width="240" height="116" class="box2"/>
+  <text x="1115" y="462" class="label">Skills</text>
+  <text x="1115" y="493" class="small">Gmail · stocks</text>
+  <text x="1115" y="518" class="small">news · dev tools</text>
+
+  <rect x="790" y="600" width="240" height="116" class="box2"/>
+  <text x="820" y="642" class="label">Cron / Heartbeat</text>
+  <text x="820" y="673" class="small">scheduled checks</text>
+  <text x="820" y="698" class="small">background reminders</text>
+
+  <rect x="1085" y="600" width="240" height="116" class="box2"/>
+  <text x="1115" y="642" class="label">Built-in Tools</text>
+  <text x="1115" y="673" class="small">files · shell · web</text>
+  <text x="1115" y="698" class="small">approval-gated writes</text>
+
+  <rect x="1360" y="420" width="115" height="116" class="box3"/>
+  <text x="1384" y="462" class="label">Data</text>
+  <text x="1384" y="493" class="small">vault</text>
+  <text x="1384" y="518" class="small">host</text>
+
+  <rect x="1360" y="600" width="115" height="116" class="danger"/>
+  <text x="1385" y="642" class="label">Policy</text>
+  <text x="1385" y="672" class="small">approval</text>
+  <text x="1385" y="697" class="small">non-goals</text>
+
+  <!-- Flow lines -->
+  <path d="M340 291 C360 291 374 278 398 278" class="lineC"/>
+  <path d="M515 326 C515 344 515 357 515 378" class="lineC"/>
+  <path d="M395 448 C375 448 369 453 352 453" class="lineC"/>
+  <path d="M645 448 C700 448 732 355 790 305" class="lineC"/>
+  <path d="M1045 299 C1060 299 1072 299 1088 299" class="lineP"/>
+  <path d="M1220 353 C1160 382 1015 385 915 418" class="lineP"/>
+  <path d="M1220 353 C1215 378 1212 397 1208 418" class="lineP"/>
+  <path d="M1220 353 C1110 445 950 535 910 598" class="lineP"/>
+  <path d="M1220 353 C1238 445 1220 535 1210 598" class="lineP"/>
+  <path d="M1325 478 C1340 478 1347 478 1358 478" class="lineG"/>
+  <path d="M1325 658 C1340 658 1347 658 1358 658" class="lineG"/>
+  <path d="M1090 299 C930 130 650 146 525 378" class="lineG dash"/>
+  <path d="M515 516 C470 560 410 607 365 627" class="lineG"/>
+
+  <!-- Telegram/mobile path -->
+  <rect x="790" y="760" width="315" height="72" class="muted"/>
+  <text x="820" y="803" class="label">Telegram / Mobile Chat</text>
+  <path d="M345 291 C510 190 680 820 788 798" class="lineC dash"/>
+  <path d="M948 760 C940 655 902 465 910 355" class="lineP dash"/>
+
+  <rect x="80" y="900" width="1440" height="55" rx="20" fill="#07111D" stroke="#20384A" stroke-width="1.5"/>
+  <text x="110" y="934" class="small">Design rule: JARVIS may capture voice and present UI, but privileged execution, approvals, memory, scheduling, and tool ownership stay in OpenClaw. Financial transaction execution remains outside MVP scope.</text>
+</svg>

@@ -18,8 +18,9 @@ The most important consequence is that documentation is now organized around exe
 1. [[Master_Index]]
 2. [[OpenClaw_Runtime_Architecture]]
 3. [[OpenClaw_Migration_Plan]]
-4. [[OpenClaw_Workspace_Strategy]]
-5. [[Platform_Architecture]]
+4. [[OpenClaw_Architecture_Visual]]
+5. [[OpenClaw_Workspace_Strategy]]
+6. [[Platform_Architecture]]
 6. [[Agent_Runtime]]
 7. [[Open_Interpreter_Runtime]]
 8. [[Tool_Invocation_Model]]
@@ -48,7 +49,7 @@ The most important consequence is that documentation is now organized around exe
 31. [[Setup_and_Deployment]]
 
 ## OpenClaw Migration Note
-The active migration direction is to evaluate OpenClaw as the runtime layer for JARVIS. Start with [[ADR_004_OpenClaw_Runtime_Adoption]], [[OpenClaw_Runtime_Architecture]], [[OpenClaw_Migration_Plan]], and [[OpenClaw_Workspace_Strategy]] before extending the custom FastAPI/Agent Runtime scaffold.
+The active migration direction is to evaluate OpenClaw as the runtime layer for JARVIS. Start with [[ADR_004_OpenClaw_Runtime_Adoption]], [[OpenClaw_Runtime_Architecture]], [[OpenClaw_Migration_Plan]], [[OpenClaw_Architecture_Visual]], and [[OpenClaw_Workspace_Strategy]] before extending the custom FastAPI/Agent Runtime scaffold.
 
 ## Vault Structure
 - `Architecture/`
