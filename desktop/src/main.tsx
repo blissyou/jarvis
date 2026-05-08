@@ -22,6 +22,7 @@ import {
 import './styles.css';
 
 type Message = { role: 'user' | 'assistant' | 'system'; text: string };
+type InputMode = 'text' | 'voice';
 
 function VoiceCore({ status }: { status: string }) {
   const state =
@@ -43,7 +44,7 @@ function VoiceCore({ status }: { status: string }) {
       </div>
       <div className="voice-copy">
         <h1>{state}</h1>
-        <p>Voice-first shell. Chat console opens separately for development.</p>
+        <p>JARVIS Voice Layer on OpenClaw. STT/TTS here, execution and approvals in OpenClaw.</p>
       </div>
     </section>
   );
@@ -128,19 +129,25 @@ function App() {
     }
   }
 
-  async function submitText(text: string) {
+  async function submitText(text: string, mode: InputMode = 'text') {
     if (!session || !text.trim()) return;
     const cleanText = text.trim();
     setInput('');
     setStatus('sending');
     setMessages((current) => [...current, { role: 'user', text: cleanText }]);
     try {
-      const turn = await sendTurn(session.id, cleanText);
+      const turn = await sendTurn(session.id, cleanText, mode);
       setLastTurn(turn);
       setStatus(turn.status);
       const assistantText = turn.final_response ?? `Turn status: ${turn.status}`;
       setMessages((current) => [...current, { role: 'assistant', text: assistantText }]);
-      void speak(assistantText);
+      if (turn.requires_approval) {
+        void speak('승인이 필요한 작업입니다. 화면의 승인 카드를 확인해 주세요.');
+      } else if (turn.status === 'blocked') {
+        void speak(assistantText);
+      } else {
+        void speak(assistantText);
+      }
     } catch (error) {
       setStatus('error');
       setMessages((current) => [...current, { role: 'assistant', text: String(error) }]);
@@ -156,8 +163,14 @@ function App() {
     setStatus('sending');
     try {
       const result = action === 'approve' ? await approve(lastTurn.approval_id) : await reject(lastTurn.approval_id);
-      setStatus('idle');
-      setMessages((current) => [...current, { role: 'assistant', text: `Approval ${action}d. ${JSON.stringify(result)}` }]);
+      const turn = result && typeof result === 'object' && 'turn' in result ? (result as { turn?: Turn }).turn : undefined;
+      const message = action === 'approve'
+        ? (turn?.final_response ?? '승인된 작업 처리가 끝났습니다.')
+        : '거절했습니다. 실행된 작업은 없습니다.';
+      setLastTurn(turn ?? null);
+      setStatus(turn?.status ?? 'idle');
+      setMessages((current) => [...current, { role: 'assistant', text: message }]);
+      void speak(message);
       await refresh();
     } catch (error) {
       setStatus('error');
@@ -165,15 +178,15 @@ function App() {
     }
   }
 
-  async function stopRuntime(target: 'api' | 'frontend' | 'ollama') {
-    const labels = { api: 'Backend API', frontend: 'Frontend dev server', ollama: 'Ollama' };
+  async function stopRuntime(target: 'voice_api' | 'frontend' | 'ollama') {
+    const labels = { voice_api: 'JARVIS Voice Layer API', frontend: 'Frontend dev server', ollama: 'Ollama' };
     const ok = window.confirm(`${labels[target]}를 종료할까요?`);
     if (!ok) return;
     setRuntimeMessage(`Stopping ${labels[target]}...`);
     try {
       const result = await shutdownRuntime([target]);
       setRuntimeMessage(result.results.map((item) => `${item.target}: ${item.status}`).join(' | '));
-      if (target !== 'api') {
+      if (target !== 'voice_api') {
         await refresh();
       }
     } catch (error) {
@@ -221,7 +234,7 @@ function App() {
         return;
       }
       setMicMessage(`Prompt: ${transcription.text}`);
-      await submitText(transcription.text);
+      await submitText(transcription.text, 'voice');
     } catch (error) {
       setStatus('error');
       setMicMessage(`STT failed: ${String(error)}`);
@@ -254,10 +267,11 @@ function App() {
 
       <div className="hud-grid">
         <aside className="telemetry panel">
-          <h2>LOCAL RUNTIME</h2>
-          <p>Provider: {modelHealth?.providers.find((provider) => provider.available)?.name ?? 'checking'}</p>
+          <h2>OPENCLAW RUNTIME</h2>
+          <p>OpenClaw: {runtimeByName.get('openclaw') ? 'ready' : 'not linked'}</p>
+          <p>Voice Layer: {runtimeByName.get('voice_api') ? 'ready' : 'offline'}</p>
+          <p>Model: {modelHealth?.providers.find((provider) => provider.available)?.name ?? 'checking'}</p>
           <p>Ollama: {modelHealth?.providers.find((provider) => provider.name === 'ollama')?.available ? 'ready' : 'offline'}</p>
-          <p>LM Studio: {modelHealth?.providers.find((provider) => provider.name === 'lmstudio')?.available ? 'ready' : 'offline'}</p>
           <div className="mini-gauge">
             {budget?.local_model_calls ?? 0}
             <small>local calls</small>
@@ -277,9 +291,10 @@ function App() {
 
         <aside className="session panel">
           <h2>SESSION</h2>
-          <p>Mode: voice first</p>
-          <p>Input: mic and chat popup</p>
-          <p>Approval: required</p>
+          <p>Mode: OpenClaw + Voice Layer</p>
+          <p>Input: mic transcript and chat popup</p>
+          <p>Approval: OpenClaw-owned</p>
+          <p>Finance: read-only briefings</p>
 
           <div className="voice-controls">
             <div className="runtime-line">
@@ -298,13 +313,14 @@ function App() {
 
           <div className="runtime-control">
             <h2>RUNTIME CONTROL</h2>
-            <div className="runtime-line"><span>API</span><strong>{runtimeByName.get('api') ? 'on' : 'off'}</strong></div>
+            <div className="runtime-line"><span>OpenClaw</span><strong>{runtimeByName.get('openclaw') ? 'on' : 'off'}</strong></div>
+            <div className="runtime-line"><span>Voice API</span><strong>{runtimeByName.get('voice_api') ? 'on' : 'off'}</strong></div>
             <div className="runtime-line"><span>UI</span><strong>{runtimeByName.get('frontend') ? 'on' : 'off'}</strong></div>
             <div className="runtime-line"><span>Ollama</span><strong>{runtimeByName.get('ollama') ? 'on' : 'off'}</strong></div>
             <div className="runtime-actions">
               <button onClick={() => void stopRuntime('ollama')} title="Stop Ollama local model runtime">OLLAMA</button>
               <button onClick={() => void stopRuntime('frontend')} title="Stop Vite frontend dev server">UI</button>
-              <button onClick={() => void stopRuntime('api')} title="Stop FastAPI backend">API</button>
+              <button onClick={() => void stopRuntime('voice_api')} title="Stop JARVIS Voice Layer API">VOICE</button>
             </div>
             <p className="runtime-message">{runtimeMessage}</p>
           </div>

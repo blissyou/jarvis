@@ -4,6 +4,7 @@ from fastapi import APIRouter, HTTPException
 
 from api.app.persistence import db
 from api.app.schemas.contracts import EventOut, PlanStep, SessionCreate, SessionOut, TurnCreate, TurnOut
+from api.app.security.finance_policy import evaluate_financial_transaction_policy
 from api.app.security.policy import requires_approval, risk_level_for
 from api.app.services.model_router import router as model_router
 from api.app.services.tools import choose_tool, get_tool, invoke_tool
@@ -33,6 +34,35 @@ def create_turn(session_id: str, payload: TurnCreate) -> TurnOut:
 
     workspace_root = payload.workspace.cwd or session["workspace_root"]
     user_text = payload.input.text
+    finance_decision = evaluate_financial_transaction_policy(user_text)
+    if finance_decision.blocked:
+        plan = [
+            PlanStep(
+                step_id="step_policy_block",
+                kind="chat",
+                arguments={"policy": "mvp_financial_transaction_non_goal", "matched_terms": list(finance_decision.matched_terms)},
+            ).model_dump()
+        ]
+        turn = db.insert_turn(
+            session_id=session_id,
+            input_mode=payload.input.mode.value,
+            user_text=user_text,
+            mode="policy_block",
+            risk_level="high",
+            requires_approval=False,
+            status="blocked",
+            plan=plan,
+            final_response=finance_decision.reason,
+        )
+        db.insert_event(
+            session_id,
+            turn["id"],
+            "policy_blocked",
+            "high",
+            {"policy": "mvp_financial_transaction_non_goal", "matched_terms": list(finance_decision.matched_terms)},
+        )
+        return TurnOut(**db.turn_to_dict(turn))
+
     tool_name, args = choose_tool(user_text, workspace_root=workspace_root, selected_files=payload.workspace.selected_files)
     model_reply = model_router.infer(user_text, sensitive=bool(payload.workspace.selected_files), cloud_allowed=payload.policy.cloud_allowed)
 

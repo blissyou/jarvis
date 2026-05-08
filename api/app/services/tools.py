@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from api.app.schemas.contracts import RiskClass, ToolManifest, ToolResult
+from api.app.security.finance_policy import evaluate_financial_transaction_policy
 from api.app.security.policy import is_inside_workspace, normalize_path
 
 TOOL_MANIFESTS: dict[str, ToolManifest] = {
@@ -35,7 +36,7 @@ TOOL_MANIFESTS: dict[str, ToolManifest] = {
     "stocks.get_quote": ToolManifest(
         tool_name="stocks.get_quote",
         risk_class=RiskClass.network_read,
-        description="Mock stock quote lookup for MVP wiring.",
+        description="Read-only stock quote lookup for MVP wiring. Trade/order execution is explicitly out of scope.",
         input_schema={"type": "object", "required": ["symbol"], "properties": {"symbol": {"type": "string"}, "market": {"type": "string", "default": "US"}}},
         requires_approval=False,
         idempotent=True,
@@ -60,6 +61,8 @@ def get_tool(tool_name: str) -> ToolManifest | None:
 
 
 def choose_tool(text: str, workspace_root: str | None = None, selected_files: list[str] | None = None) -> tuple[str | None, dict[str, Any]]:
+    if evaluate_financial_transaction_policy(text).blocked:
+        return None, {}
     lowered = text.lower()
     if "email" in lowered or "gmail" in lowered or "메일" in text:
         return "gmail.create_draft", {"to": ["min@example.com"], "subject": "Draft from JARVIS", "body": text}
@@ -96,7 +99,7 @@ def invoke_tool(tool_name: str, arguments: dict[str, Any], workspace_root: str |
 
     if tool_name == "stocks.get_quote":
         symbol = str(arguments.get("symbol", "AAPL")).upper()
-        return ToolResult(tool_name=tool_name, status="succeeded", changed_state=False, summary=f"Mock quote for {symbol}: price data adapter not configured yet.", raw={"symbol": symbol, "price": None, "source": "local mock"})
+        return ToolResult(tool_name=tool_name, status="succeeded", changed_state=False, summary=f"Read-only market brief for {symbol}: price data adapter not configured yet. JARVIS will not place trades or make investment decisions in the MVP.", raw={"symbol": symbol, "price": None, "source": "local mock", "trade_execution_allowed": False})
 
     if tool_name == "gmail.create_draft":
         return ToolResult(tool_name=tool_name, status="blocked", changed_state=False, summary="Gmail draft creation is stubbed until OAuth is configured.", raw={"arguments": arguments})

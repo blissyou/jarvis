@@ -48,8 +48,8 @@ class LocalProvider:
 
     def infer(self, text: str) -> str:
         return (
-            "I understood the request. The fallback local placeholder answered because no configured "
-            "local model provider was reachable. Tool planning and approval gates are active."
+            "요청을 이해했습니다. 현재는 로컬 모델 공급자가 연결되지 않아 fallback 응답을 사용했습니다. "
+            "JARVIS는 OpenClaw 런타임 위의 Voice Layer로 동작하며, 도구 실행은 승인 정책을 따릅니다."
         )
 
 
@@ -107,8 +107,10 @@ class OllamaProvider:
     def infer(self, text: str, reasoning: bool = False, korean: bool = False) -> str:
         model = self.model_for(reasoning, korean=korean)
         system_prompt = (
-            "You are JARVIS, a concise local desktop assistant. Answer briefly and mention "
-            "that tool execution is policy-gated when relevant."
+            "You are JARVIS, a concise voice-first assistant running as a product layer on OpenClaw. "
+            "OpenClaw owns execution, sessions, tools, approvals, and background tasks. "
+            "JARVIS owns STT/TTS, transcript UX, and the HUD. Mention approval gates when relevant, "
+            "and never offer payments, transfers, orders, or financial trade execution."
         )
         if korean:
             if not reasoning and model == self.korean_fast_model:
@@ -117,8 +119,9 @@ class OllamaProvider:
                 system_prompt = (
                     "당신은 로컬 데스크톱 비서 JARVIS입니다. 반드시 자연스러운 한국어로만 답하세요. "
                     "중국어, 영어, 태국어, 일본어를 섞지 마세요. 지금 실제로 가능한 기능만 말하세요. "
-                    "현재 가능한 기능은 짧은 대화, 로컬 모델 응답, 세션 상태 확인, 승인 기반 도구 실행 준비, "
-                    "개발용 채팅 UI입니다. 아직 실제 음악 재생, 화면 제어, 일정 관리, 파일 이동은 완성 기능처럼 말하지 마세요. "
+                    "현재 가능한 기능은 짧은 대화, 마이크 입력, 음성 출력, transcript 표시, 세션 상태 확인, "
+                    "OpenClaw 기반 승인형 도구 실행 준비, 개발용 채팅 UI입니다. 아직 실제 음악 재생, 화면 제어, 일정 관리, 파일 이동은 완성 기능처럼 말하지 마세요. "
+                    "결제, 송금, 주문, 매매 같은 금융 거래 실행은 MVP 범위 밖이라고 말하세요. "
                     "음성 출력에 적합하게 이모지, 특수기호, 목록 장식을 쓰지 마세요. "
                     "Markdown 문법을 쓰지 마세요. 별표, 백틱, 하이픈 목록, 번호 목록, 굵게 표시 문법을 출력하지 마세요. "
                     "내부 추론 과정을 출력하지 말고 바로 최종 답변만 말하세요."
@@ -184,11 +187,12 @@ class LMStudioProvider:
         return self.health().available
 
     def infer(self, text: str, korean: bool = False) -> str:
-        system_prompt = "You are JARVIS, a concise local desktop assistant. Prefer safe plans, mention approval when actions are risky."
+        system_prompt = "You are JARVIS, a concise voice-first assistant layered on OpenClaw. Prefer safe plans, mention approval when actions are risky, and never offer financial transaction execution."
         if korean:
             system_prompt = (
-                "당신은 로컬 데스크톱 비서 JARVIS입니다. 반드시 자연스러운 한국어로만 짧게 답하세요. "
-                "현재 구현된 기능과 미구현 기능을 구분해서 말하세요. Markdown 문법이나 목록 장식을 쓰지 마세요."
+                "당신은 OpenClaw 위에서 동작하는 voice-first 비서 JARVIS입니다. 반드시 자연스러운 한국어로만 짧게 답하세요. "
+                "JARVIS는 STT/TTS와 HUD를 담당하고 OpenClaw는 실행, 승인, 세션, 도구를 담당합니다. "
+                "결제, 송금, 주문, 매매 같은 금융 거래 실행은 MVP 범위 밖입니다. 현재 구현된 기능과 미구현 기능을 구분해서 말하세요. Markdown 문법이나 목록 장식을 쓰지 마세요."
             )
         payload: dict[str, Any] = {
             "model": self.model,
@@ -248,7 +252,7 @@ class ModelRouter:
         if any(word in normalized for word in ["들려", "내 말", "내말", "마이크"]):
             return "네, 들립니다. 바로 대화할 수 있어요."
         if any(word in normalized for word in ["뭘 할", "무엇을 할", "기능", "할 수 있어"]):
-            return "지금은 짧은 대화, 마이크 입력, 음성 출력, 세션 상태 확인, 승인 기반 도구 실행 준비를 할 수 있어요."
+            return "지금은 짧은 대화, 마이크 입력, 음성 출력, transcript 표시, OpenClaw 기반 승인형 도구 실행 준비를 할 수 있어요. 금융 거래 실행은 MVP 범위 밖입니다."
         if any(word in normalized for word in ["준비", "상태", "켜졌", "실행"]):
             return "준비됐습니다. 마이크나 채팅으로 명령해 주세요."
         if any(word in normalized for word in ["짧게", "간단히", "빨리"]) and any(word in normalized for word in ["대답", "답", "말"]):

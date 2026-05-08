@@ -47,7 +47,7 @@ export type Budget = {
 };
 
 export type RuntimeServiceStatus = {
-  name: 'api' | 'frontend' | 'ollama' | string;
+  name: 'openclaw' | 'voice_api' | 'frontend' | 'ollama' | string;
   running: boolean;
   detail: string;
 };
@@ -96,11 +96,11 @@ export function createSession(workspaceRoot?: string) {
   });
 }
 
-export function sendTurn(sessionId: string, text: string) {
+export function sendTurn(sessionId: string, text: string, mode: 'text' | 'voice' = 'text') {
   return request<Turn>(`/sessions/${sessionId}/turns`, {
     method: 'POST',
     body: JSON.stringify({
-      input: { mode: 'text', text },
+      input: { mode, text },
       workspace: { cwd: null, selected_files: [] },
       policy: { approval_mode: 'ask', cloud_allowed: false, network_allowed: 'ask' }
     })
@@ -123,7 +123,7 @@ export function getRuntimeStatus() {
   return request<RuntimeStatus>('/runtime/status');
 }
 
-export function shutdownRuntime(targets: Array<'api' | 'frontend' | 'ollama'>) {
+export function shutdownRuntime(targets: Array<'voice_api' | 'frontend' | 'ollama'>) {
   return request<RuntimeShutdown>('/runtime/shutdown', {
     method: 'POST',
     body: JSON.stringify({ targets })

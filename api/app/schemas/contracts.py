@@ -138,7 +138,7 @@ class RuntimeStatusOut(BaseModel):
 
 
 class RuntimeShutdownRequest(BaseModel):
-    targets: list[Literal["api", "frontend", "ollama"]]
+    targets: list[Literal["voice_api", "frontend", "ollama"]]
 
 
 class RuntimeShutdownResult(BaseModel):

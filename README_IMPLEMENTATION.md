@@ -1,12 +1,13 @@
 ﻿# JARVIS MVP Scaffold
 
-This repository contains the first implementation scaffold for the Obsidian architecture:
+This repository contains the current OpenClaw-aligned JARVIS scaffold:
 
-- `api/`: FastAPI orchestration backend
-- `agent/`: model provider boundary placeholders
-- `mcp/`: first-party tool registry and tools
-- `desktop/`: Electron/React minimal voice-first UI scaffold
-- `runtime/`: local logs, artifacts, sessions, and SQLite database
+- `api/`: thin JARVIS Voice Layer adapter for STT, TTS, HUD telemetry, and compatibility endpoints
+- OpenClaw: target owner for agent execution, sessions, approvals, tools, background tasks, and workspace context
+- `desktop/`: Electron/React voice-first HUD for microphone input, transcript display, approval cards, and spoken output
+- `runtime/`: local logs, artifacts, sessions, and SQLite database while compatibility endpoints remain
+
+MVP scope is intentionally read-heavy. Market data briefings are allowed, but payments, transfers, order placement, trading, and other financial transaction execution are explicit non-goals.
 
 ## Backend dev
 
@@ -55,15 +56,17 @@ cd desktop
 npm run dev:electron
 ```
 
-The desktop shell requests microphone permission for push-to-talk input. Spoken output uses the operating system/browser speech synthesis engine and can be toggled from `Voice output` in the session panel.
+The desktop shell requests microphone permission for push-to-talk input. Spoken output uses the Voice Layer TTS stream with browser `speechSynthesis` fallback and can be toggled from `Voice output` in the session panel.
 
 Current voice behavior:
 
 - Chat automatically scrolls to the latest message.
 - Chat opens in a separate popup so the main JARVIS shell does not scroll.
-- `MIC` records audio through Electron, uploads it to `POST /voice/transcribe`, then submits the returned transcript as the user prompt.
+- `MIC` records audio through Electron, uploads it to `POST /voice/transcribe`, then submits the returned transcript as a voice-mode user prompt.
 - Local STT uses `faster-whisper`; the default speed profile uses `base` with CPU `int8`.
 - Assistant replies are spoken through the streaming `GET /voice/speak/stream` endpoint when `Voice output` is on.
+- Approval-required actions are spoken as pending and shown as approval cards; the voice layer must not imply execution completed before approval.
+- Financial transaction requests are blocked instead of approval-gated because they are outside the MVP.
 - Neural TTS uses `edge-tts` with `ko-KR-HyunsuNeural`, `-4%` rate, and `-6Hz` pitch by default.
 - If streaming neural TTS fails, the desktop app falls back to the operating system `speechSynthesis` voice.
 

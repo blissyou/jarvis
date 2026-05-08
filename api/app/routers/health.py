@@ -7,7 +7,11 @@ router = APIRouter(tags=["health"])
 
 @router.get("/health")
 def health() -> dict[str, str]:
-    return {"status": "ok", "service": "jarvis-api"}
+    return {
+        "status": "ok",
+        "service": "jarvis-voice-layer",
+        "runtime_owner": "openclaw",
+    }
 
 
 @router.get("/models/health")

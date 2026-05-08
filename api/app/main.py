@@ -1,4 +1,9 @@
-﻿"""FastAPI entrypoint for the JARVIS local agent MVP."""
+﻿"""FastAPI entrypoint for the JARVIS Voice Layer MVP adapter.
+
+The latest architecture makes OpenClaw the agent/runtime owner. This API remains
+as a thin local adapter for STT, TTS, HUD telemetry, and compatibility while the
+Electron shell migrates toward OpenClaw Gateway as the execution substrate.
+"""
 
 import threading
 
@@ -9,7 +14,7 @@ from api.app.persistence.db import init_db
 from api.app.routers import approvals, budgets, health, runtime, sessions, tools, voice
 from api.app.services.model_router import router as model_router
 
-app = FastAPI(title="JARVIS Local Agent API", version="0.1.0")
+app = FastAPI(title="JARVIS Voice Layer API", version="0.2.0")
 init_db()
 
 app.add_middleware(

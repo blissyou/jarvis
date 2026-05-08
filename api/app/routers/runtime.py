@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import shutil
 import socket
 import subprocess
 import threading
@@ -72,16 +73,48 @@ def _stop_pids(pids: Iterable[int]) -> tuple[bool, str]:
 
 
 def _process_running(image_name: str) -> bool:
-    result = _run(["tasklist", "/FI", f"IMAGENAME eq {image_name}"])
-    return image_name.lower() in result.stdout.lower()
+    if os.name == "nt":
+        result = _run(["tasklist", "/FI", f"IMAGENAME eq {image_name}"])
+        return image_name.lower() in result.stdout.lower()
+    result = _run(["pgrep", "-if", image_name])
+    return result.returncode == 0 and bool(result.stdout.strip())
+
+
+def _openclaw_status() -> RuntimeServiceStatus:
+    configured_url = os.getenv("OPENCLAW_GATEWAY_URL")
+    if configured_url:
+        return RuntimeServiceStatus(
+            name="openclaw",
+            running=True,
+            detail=f"Configured OpenClaw Gateway URL: {configured_url}.",
+        )
+
+    if shutil.which("openclaw"):
+        result = _run(["openclaw", "gateway", "status"])
+        running = result.returncode == 0 and "running" in (result.stdout + result.stderr).lower()
+        detail = (result.stdout or result.stderr or "openclaw CLI found.").strip().splitlines()
+        return RuntimeServiceStatus(
+            name="openclaw",
+            running=running,
+            detail=detail[0] if detail else "OpenClaw CLI found.",
+        )
+
+    return RuntimeServiceStatus(
+        name="openclaw",
+        running=False,
+        detail="Set OPENCLAW_GATEWAY_URL or install the openclaw CLI to report Gateway status.",
+    )
 
 
 def _stop_image(image_name: str) -> RuntimeShutdownResult:
     if not _process_running(image_name):
         return RuntimeShutdownResult(target=image_name, status="not_running", detail=f"{image_name} is not running.")
-    result = _run(["taskkill", "/IM", image_name, "/F"])
+    if os.name == "nt":
+        result = _run(["taskkill", "/IM", image_name, "/F"])
+    else:
+        result = _run(["pkill", "-if", image_name])
     if result.returncode == 0:
-        return RuntimeShutdownResult(target=image_name, status="stopped", detail=result.stdout.strip())
+        return RuntimeShutdownResult(target=image_name, status="stopped", detail=(result.stdout or f"Stopped {image_name}.").strip())
     return RuntimeShutdownResult(target=image_name, status="failed", detail=(result.stderr or result.stdout).strip())
 
 
@@ -95,8 +128,10 @@ def _schedule_api_shutdown() -> None:
 @router.get("/status", response_model=RuntimeStatusOut)
 def runtime_status(request: Request) -> RuntimeStatusOut:
     _ensure_local_request(request)
+    ollama_running = _port_open(11434) or _process_running("ollama")
     services = [
-        RuntimeServiceStatus(name="api", running=True, detail="Current FastAPI process is responding."),
+        _openclaw_status(),
+        RuntimeServiceStatus(name="voice_api", running=True, detail="JARVIS Voice Layer adapter is responding."),
         RuntimeServiceStatus(
             name="frontend",
             running=_port_open(5173),
@@ -104,8 +139,8 @@ def runtime_status(request: Request) -> RuntimeStatusOut:
         ),
         RuntimeServiceStatus(
             name="ollama",
-            running=_port_open(11434) or _process_running("ollama.exe"),
-            detail="Ollama API or process detected." if (_port_open(11434) or _process_running("ollama.exe")) else "Ollama is not detected.",
+            running=ollama_running,
+            detail="Ollama API or process detected." if ollama_running else "Ollama is not detected.",
         ),
     ]
     return RuntimeStatusOut(services=services)
@@ -122,13 +157,13 @@ def runtime_shutdown(payload: RuntimeShutdownRequest, request: Request) -> Runti
             status = "stopped" if stopped else "not_running"
             results.append(RuntimeShutdownResult(target=target, status=status, detail=detail))
         elif target == "ollama":
-            ollama_result = _stop_image("ollama.exe")
-            app_result = _stop_image("ollama app.exe")
-            status = "stopped" if "stopped" in {ollama_result.status, app_result.status} else "not_running"
-            detail = f"{ollama_result.detail} {app_result.detail}".strip()
+            process_names = ["ollama.exe", "ollama app.exe"] if os.name == "nt" else ["ollama"]
+            stop_results = [_stop_image(name) for name in process_names]
+            status = "stopped" if any(item.status == "stopped" for item in stop_results) else "not_running"
+            detail = " ".join(item.detail for item in stop_results).strip()
             results.append(RuntimeShutdownResult(target=target, status=status, detail=detail))
-        elif target == "api":
+        elif target == "voice_api":
             _schedule_api_shutdown()
-            results.append(RuntimeShutdownResult(target=target, status="scheduled", detail="API shutdown scheduled after response."))
+            results.append(RuntimeShutdownResult(target=target, status="scheduled", detail="Voice Layer API shutdown scheduled after response."))
 
     return RuntimeShutdownOut(results=results)
