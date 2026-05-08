@@ -52,7 +52,7 @@ def _load_model():
     except ImportError as exc:  # pragma: no cover - dependency diagnostic
         raise RuntimeError("faster-whisper is not installed. Run pip install -r api/requirements.txt.") from exc
 
-    model_name = os.getenv("JARVIS_STT_MODEL", "tiny")
+    model_name = os.getenv("JARVIS_STT_MODEL", "base")
     device = os.getenv("JARVIS_STT_DEVICE", "cpu")
     compute_type = os.getenv("JARVIS_STT_COMPUTE_TYPE", "int8")
     return WhisperModel(model_name, device=device, compute_type=compute_type)
@@ -70,7 +70,7 @@ def stt_health() -> dict[str, object]:
     return {
         "status": "configured",
         "provider": "faster-whisper",
-        "model": os.getenv("JARVIS_STT_MODEL", "tiny"),
+        "model": os.getenv("JARVIS_STT_MODEL", "base"),
         "device": os.getenv("JARVIS_STT_DEVICE", "cpu"),
         "compute_type": os.getenv("JARVIS_STT_COMPUTE_TYPE", "int8"),
     }

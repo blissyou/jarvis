@@ -63,7 +63,7 @@ Current voice behavior:
 - Chat automatically scrolls to the latest message.
 - Chat opens in a separate popup so the main JARVIS shell does not scroll.
 - `MIC` records audio through Electron, uploads it to `POST /voice/transcribe`, then submits the returned transcript as a voice-mode user prompt.
-- Local STT uses `faster-whisper`; the default speed profile uses `base` with CPU `int8`.
+- Local STT uses `faster-whisper`; the default profile uses `base` with CPU `int8` because `tiny` was too inaccurate for Korean voice-loopback checks.
 - Assistant replies are spoken through the streaming `GET /voice/speak/stream` endpoint when `Voice output` is on.
 - Approval-required actions are spoken as pending and shown as approval cards; the voice layer must not imply execution completed before approval.
 - Financial transaction requests are blocked instead of approval-gated because they are outside the MVP.
@@ -117,6 +117,20 @@ LMSTUDIO_MODEL=local-model
 
 ```powershell
 python scripts\smoke_api.py
+```
+
+## Voice loopback test
+
+This verifies the real voice path without needing a microphone: Edge TTS generates Korean speech, then faster-whisper STT transcribes the generated audio and checks required Korean keywords.
+
+```powershell
+python scripts\voice_loopback_test.py
+```
+
+Expected result:
+
+```text
+voice loopback check passed
 ```
 
 ## Useful endpoints
