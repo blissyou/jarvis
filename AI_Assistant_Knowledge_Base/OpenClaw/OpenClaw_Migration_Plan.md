@@ -1,6 +1,9 @@
 # OpenClaw Migration Plan
 #openclaw #migration #roadmap #implementation
 
+## Status
+Active migration plan. Updated for the OpenClaw-first Voice Layer direction.
+
 ## Purpose
 Define a practical migration plan for changing JARVIS from a custom local agent scaffold into an OpenClaw-powered assistant.
 
@@ -13,7 +16,9 @@ The target shape is **OpenClaw + JARVIS Voice Layer**:
 - JARVIS skills package product-specific capabilities without rebuilding OpenClaw's runtime.
 
 ## Phase 0 - Inventory
-Status: active
+Status: mostly complete
+
+Inventory confirmed the important direction change: OpenClaw should own the assistant runtime, and JARVIS should narrow to a Voice Layer and HUD.
 
 Tasks:
 - Confirm OpenClaw Gateway runs locally.
@@ -67,7 +72,7 @@ Acceptance checks:
 - tool results include source/timestamp where relevant.
 
 ## Phase 3 - Desktop HUD Integration
-Goal: turn the Electron app into an OpenClaw client.
+Goal: turn the Electron app into an OpenClaw client and remove active dependence on the legacy JARVIS model router.
 
 Tasks:
 - Replace direct assumptions about FastAPI orchestration with OpenClaw Gateway integration.
@@ -86,14 +91,15 @@ Acceptance checks:
 - approval-required actions are shown as cards and spoken as pending, not completed.
 
 ## Phase 4 - Retire Or Re-scope FastAPI
-Goal: remove duplicated runtime code or make it a thin product adapter.
+Goal: remove duplicated runtime code and keep FastAPI as the JARVIS Voice Layer adapter.
 
-Options:
-1. Remove most FastAPI runtime code and rely on OpenClaw Gateway.
-2. Keep FastAPI only for UI-specific aggregation.
-3. Keep FastAPI for experimental features but do not make it the source of truth.
+Active recommendation:
+1. Keep FastAPI for microphone/STT/TTS, transcript shaping, and local HUD convenience endpoints.
+2. Route actual assistant turns to OpenClaw Gateway.
+3. Retire or quarantine custom sessions, approvals, tools, and model-router endpoints that duplicate OpenClaw.
+4. Do not require Ollama for the active MVP path.
 
-Recommendation: choose option 2 only if the Electron HUD needs API shaping not available from OpenClaw.
+Legacy local model routing may remain for experiments, but it is not the product direction.
 
 ## Phase 5 - Production Hardening
 Tasks:
@@ -118,16 +124,31 @@ Allowed MVP finance scope:
 - source-linked market/news briefings
 - clearly non-advisory summaries that do not claim to make investment decisions
 
+## Migration Acceptance Criteria
+- Desktop typed prompts and voice transcripts can reach an OpenClaw session.
+- JARVIS no longer requires Ollama or the legacy model router for active MVP voice turns.
+- Electron HUD can display normal responses, tool activity, failures, and approval-pending states.
+- FastAPI endpoints that remain in the active path are voice-specific or adapter-specific.
+- High-risk voice requests preserve transcript confirmation and OpenClaw approval behavior.
+- Financial transaction requests are blocked or refused rather than converted into executable actions.
+- [[Voice_Layer_Implementation_Readiness]] release gates pass before MVP completion.
+
 ## Immediate Next Actions
-1. Decide whether the active OpenClaw workspace should stay at `~/.openclaw/workspace` or become a JARVIS-specific workspace.
-2. Create a JARVIS OpenClaw workspace profile if needed.
-3. Convert key knowledge-base rules into OpenClaw bootstrap files.
-4. Build the first Voice Layer pass: push-to-talk transcript -> OpenClaw message -> TTS/text fallback.
-5. Pick the first real skill to implement: Gmail, stocks, or Obsidian maintenance.
+1. Implement STT profile configuration and benchmark `base`, `small`, and `medium` for Korean.
+2. Build or extend voice loopback benchmarks for accuracy and latency.
+3. Connect Electron/JARVIS Voice Layer transcript submission to OpenClaw Gateway using [[OpenClaw_Gateway_Voice_Adapter]].
+4. Convert approval cards to reflect OpenClaw approval state.
+5. Remove Ollama/model-router assumptions from the active voice path.
+6. Decide whether the active OpenClaw workspace should stay at `~/.openclaw/workspace` or become a JARVIS-specific workspace.
+7. Convert key knowledge-base rules into OpenClaw bootstrap files.
 
 ## Related Documents
+- [[ADR_005_OpenClaw_First_Voice_Layer]]
+- [[JARVIS_Voice_Layer_Strategy]]
+- [[Voice_STT_Accuracy_Latency_Plan]]
 - [[ADR_004_OpenClaw_Runtime_Adoption]]
 - [[OpenClaw_Runtime_Architecture]]
 - [[OpenClaw_Workspace_Strategy]]
 - [[Evaluation_and_Acceptance]]
-- [[First_Party_Tool_Schemas]]
+- [[Voice_Layer_Implementation_Readiness]]
+- [[Legacy_Documentation_Index]]

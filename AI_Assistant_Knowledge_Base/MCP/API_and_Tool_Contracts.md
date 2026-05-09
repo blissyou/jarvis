@@ -1,3 +1,5 @@
+﻿> Legacy note: This document is preserved for historical context. The active direction is [[JARVIS_Voice_Layer_Strategy]].
+
 # API and Tool Contracts
 #api #tools #mcp #schemas #contracts
 

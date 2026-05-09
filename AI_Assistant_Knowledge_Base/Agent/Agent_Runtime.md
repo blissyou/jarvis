@@ -1,3 +1,5 @@
+﻿> Legacy note: This document is preserved for historical context. The active direction is [[JARVIS_Voice_Layer_Strategy]].
+
 # Agent Runtime
 #agent #planning #routing #state
 
@@ -58,7 +60,7 @@ stateDiagram-v2
       }
     }
   ],
-  "final_response": "로그 파일을 분석하기 위해 내용을 읽고 오류 패턴을 추출하겠습니다."
+  "final_response": "濡쒓렇 ?뚯씪??遺꾩꽍?섍린 ?꾪빐 ?댁슜???쎄퀬 ?ㅻ쪟 ?⑦꽩??異붿텧?섍쿋?듬땲??"
 }
 ```
 

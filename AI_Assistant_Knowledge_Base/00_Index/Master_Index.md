@@ -1,142 +1,128 @@
 # Master Index
-#agent-platform #desktop-ai #architecture #security #interpreter #mcp
+#jarvis #openclaw #voice-layer #architecture #security
+
+## Status
+Active navigation index. Updated for the OpenClaw-first Voice Layer direction.
 
 ## Purpose
-Provide the primary navigation surface for the JARVIS knowledge graph after the product pivot to a local AI agent platform.
+Provide the primary navigation surface for the active JARVIS knowledge graph.
 
-## Strategic Summary
-JARVIS is designed as a desktop AI control plane composed of:
-- Electron + React user interface
-- FastAPI orchestration backend
-- Agent runtime for planning, routing, and safety
-- Open Interpreter as the action execution engine
-- Docker as the isolation boundary for code execution
-- MCP-compatible tools for external services and domain extensions
-- Ollama as the default local model provider with optional OpenAI fallback
+## Active Strategic Summary
+JARVIS is now an OpenClaw-first voice assistant product layer.
 
-## Architecture Entry Points
+Active direction:
+- OpenClaw owns assistant runtime, model execution, tools, approvals, sessions, memory, channels, and background tasks.
+- JARVIS owns microphone capture, STT accuracy, transcript UX, TTS quality, and the desktop HUD.
+- Ollama and the custom JARVIS model router are not active MVP requirements.
+- The main optimization target is Korean voice accuracy and latency.
+
+## Start Here
+1. [[JARVIS_Voice_Layer_Strategy]]
+2. [[Voice_STT_Accuracy_Latency_Plan]]
+3. [[OpenClaw_Gateway_Voice_Adapter]]
+4. [[Figma_Architecture_Diagram_Brief]]
+5. [[Voice_Layer_Implementation_Readiness]]
+6. [[ADR_005_OpenClaw_First_Voice_Layer]]
+7. [[OpenClaw_Runtime_Architecture]]
+8. [[OpenClaw_Migration_Plan]]
+9. [[OpenClaw_Workspace_Strategy]]
+10. [[Voice_Runtime_Design]]
+11. [[Voice_First_Minimal_UI]]
+12. [[Desktop_UI_Spec]]
+13. [[Legacy_Documentation_Index]]
+
+## Active Architecture Entry Points
+- [[JARVIS_Voice_Layer_Strategy]]
+- [[Voice_STT_Accuracy_Latency_Plan]]
+- [[OpenClaw_Gateway_Voice_Adapter]]
+- [[Figma_Architecture_Diagram_Brief]]
+- [[Voice_Layer_Implementation_Readiness]]
+- [[OpenClaw_Runtime_Architecture]]
+- [[OpenClaw_Migration_Plan]]
+- [[OpenClaw_Architecture_Visual]]
+- [[OpenClaw_Workspace_Strategy]]
+- [[Voice_Runtime_Design]]
+- [[Voice_First_Minimal_UI]]
+- [[Desktop_UI_Spec]]
+- [[Setup_and_Deployment]]
+
+## Active Security Entry Points
+- [[Security_Model]]
+- [[Permission_and_Approval_Model]]
+- [[Windows_Host_Policy]]
+- [[OAuth_and_Secrets_Model]]
+- [[Memory_and_Privacy_Model]]
+
+## Active Workflow Entry Points
+- [[Evaluation_and_Acceptance]]
+- [[Voice_Layer_Implementation_Readiness]]
+- [[Test_Automation_Strategy]]
+- [[Developer_Workflows]]
+- [[Execution_Flows]]
+
+## Active Decision Records
+- [[ADR_005_OpenClaw_First_Voice_Layer]]
+- [[ADR_004_OpenClaw_Runtime_Adoption]]
+- [[Documentation_Refactor_Audit]]
+
+## Legacy / Historical Documents
+Use [[Legacy_Documentation_Index]] for older architecture and product documents.
+
+Legacy means: useful history, not the source of truth.
+
+### Legacy Custom Runtime
 - [[Platform_Architecture]]
 - [[Layered_Runtime_and_Data_Flow]]
 - [[Project_Structure]]
-- [[Scaling_Strategy]]
-- [[Cost_and_Budget_Model]]
-- [[Cost_Calculation_Worksheet]]
-- [[Voice_Runtime_Design]]
-- [[Memory_and_Privacy_Model]]
-- [[Persistence_and_Data_Model]]
-- [[Desktop_UI_Spec]]
-- [[Voice_First_Minimal_UI]]
-- [[Setup_and_Deployment]]
-
-## Agent & Model Entry Points
 - [[Agent_Runtime]]
-- [[Model_Routing_Logic]]
-- [[Model_Routing_Architecture]]
-- [[Model_Router_Design]]
 - [[Open_Interpreter_Runtime]]
-- [[Failure_Recovery_and_Budgets]]
-- [[Local_Model_Benchmarking]]
-
-## Tooling Entry Points
 - [[Tool_Invocation_Model]]
 - [[Tool_Registry_Design]]
 - [[API_and_Tool_Contracts]]
 - [[First_Party_Tool_Schemas]]
-
-## Security Entry Points
-- [[Security_Model]]
-- [[Permission_and_Approval_Model]]
 - [[Docker_Isolation_Strategy]]
-- [[Windows_Host_Policy]]
-- [[OAuth_and_Secrets_Model]]
 
-## Workflow Entry Points
-- [[Execution_Flows]]
-- [[Developer_Workflows]]
-- [[Evaluation_and_Acceptance]]
-- [[Test_Automation_Strategy]]
-
-## OpenClaw Migration Entry Points
-- [[OpenClaw_Runtime_Architecture]]
-- [[OpenClaw_Migration_Plan]]
-- [[OpenClaw_Workspace_Strategy]]
-- [[ADR_004_OpenClaw_Runtime_Adoption]]
-
-## Decision Records
-- [[Documentation_Refactor_Audit]]
-- [[ADR_001_Local_First_Desktop_Agent]]
+### Legacy Local Model / Ollama
 - [[ADR_002_Model_Routing]]
 - [[ADR_Model_Provider_Strategy]]
-- [[ADR_003_Open_Interpreter_and_MCP]]
-
-## Reference Source Index
-- [[Official_References]]
-
-## Active Knowledge Graph
-- [[README]]
-- [[Platform_Architecture]]
-- [[Layered_Runtime_and_Data_Flow]]
-- [[Project_Structure]]
-- [[Agent_Runtime]]
+- [[Model_Routing_Logic]]
 - [[Model_Routing_Architecture]]
 - [[Model_Router_Design]]
-- [[Open_Interpreter_Runtime]]
-- [[Tool_Invocation_Model]]
-- [[API_and_Tool_Contracts]]
-- [[Docker_Isolation_Strategy]]
-- [[Security/Security_Model|Security_Model]]
-- [[Windows_Host_Policy]]
-- [[OAuth_and_Secrets_Model]]
-- [[Cost_and_Budget_Model]]
-- [[Cost_Calculation_Worksheet]]
-- [[Evaluation_and_Acceptance]]
-- [[Test_Automation_Strategy]]
-- [[Execution_Flows]]
+- [[Local_Model_Benchmarking]]
 
-## Legacy Documentation
-The documents below are preserved for historical context. They are not the active source of truth and each one is superseded by the new platform-oriented architecture set.
-
-### Legacy Research
+### Legacy Product And Dashboard Era
 - [[Feasibility]]
 - [[Reality_vs_Jarvis]]
-
-### Legacy Architecture
 - [[System_Architecture]]
 - [[Tool_Execution_Model]]
 - [[Voice_Pipeline]]
-
-### Legacy Features And MVP
 - [[Feature_Difficulty_Table]]
 - [[Feature_List]]
 - [[MVP_Definition]]
 - [[User_Flows]]
-
-### Legacy Security
-- [[Approval_System]]
-- [[05_Security/Security_Model|Legacy Security_Model]]
-
-### Legacy Product And Planning
 - [[Development_Roadmap]]
 - [[Tech_Stack_Decision]]
 - [[Practical_Constraints]]
 - [[PRD]]
 - [[System_Prompt]]
-
-### Legacy API And Data
 - [[API_Spec]]
 - [[Database_Schema]]
 
-### Legacy Workflow Visualization
-- [[Agent_Workflow]]
-- [[Mermaid_Generation_Strategy]]
-- [[Mermaid_Generator_Code]]
-- [[Task_State_Model]]
-- [[Workflow_API_Design]]
-- [[Workflow_E2E_Test_Scenarios]]
-- [[Workflow_Log_Format]]
-- [[Workflow_Pydantic_Models]]
-- [[Workflow_SQL_DDL]]
-- [[Workflow_Service_Layer]]
+## Index Quality Checks
+- Active documents appear before legacy documents.
+- OpenClaw-first Voice Layer documents are the first reading path.
+- Legacy documents are grouped separately and labeled historical.
+- New active documents should be added to Start Here or Active Architecture when they become implementation-directing.
 
-### Legacy References
+## Reference Source Index
+- [[Official_References]]
 - [[References]]
+
+## Related Documents
+- [[README]]
+- [[JARVIS_Voice_Layer_Strategy]]
+- [[Voice_STT_Accuracy_Latency_Plan]]
+- [[OpenClaw_Gateway_Voice_Adapter]]
+- [[Figma_Architecture_Diagram_Brief]]
+- [[Voice_Layer_Implementation_Readiness]]
+- [[Legacy_Documentation_Index]]

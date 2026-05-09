@@ -2,12 +2,12 @@
 #adr #openclaw #runtime #agent-platform #migration
 
 ## Status
-Proposed
+Accepted as baseline by [[ADR_005_OpenClaw_First_Voice_Layer]].
 
 ## Decision
 JARVIS should pivot from building a fully custom agent runtime to using OpenClaw as the primary agent runtime, channel gateway, tool execution surface, session manager, and automation layer.
 
-The JARVIS repository should become a product-specific desktop shell, knowledge base, first-party tool package, and local workflow layer on top of OpenClaw rather than duplicating OpenClaw's gateway, session, tool, memory, cron, channel, and agent orchestration capabilities.
+The JARVIS repository should become a product-specific desktop shell, knowledge base, voice layer, and local workflow layer on top of OpenClaw rather than duplicating OpenClaw's gateway, session, tool, memory, cron, channel, model, and agent orchestration capabilities.
 
 ## Context
 The current architecture defines a custom stack:
@@ -57,10 +57,12 @@ This is coherent, but it requires rebuilding many already-existing OpenClaw capa
 ## Implementation Rule
 Do not rewrite everything at once. Migrate in layers:
 1. Treat OpenClaw as the operating runtime.
-2. Convert JARVIS-specific behavior into workspace instructions and skills.
-3. Keep Electron UI as the product shell.
-4. Keep FastAPI only for product-specific APIs not provided by OpenClaw.
-5. Re-evaluate Open Interpreter after OpenClaw tool/skill coverage is mapped.
+2. Treat JARVIS as the voice/HUD layer.
+3. Convert JARVIS-specific behavior into workspace instructions and skills.
+4. Keep Electron UI as the product shell.
+5. Keep FastAPI only for STT/TTS, transcript UX, and product-specific APIs not provided by OpenClaw.
+6. Remove Ollama/model-router dependencies from the active voice path.
+7. Re-evaluate Open Interpreter after OpenClaw tool/skill coverage is mapped.
 
 ## Supersedes / Changes
 - Partially supersedes [[ADR_003_Open_Interpreter_and_MCP]] as the default runtime decision.
@@ -68,9 +70,10 @@ Do not rewrite everything at once. Migrate in layers:
 - Keeps Docker isolation as a security goal where OpenClaw sandboxing or external execution requires it.
 
 ## Related Documents
+- [[ADR_005_OpenClaw_First_Voice_Layer]]
+- [[JARVIS_Voice_Layer_Strategy]]
+- [[Voice_STT_Accuracy_Latency_Plan]]
 - [[OpenClaw_Runtime_Architecture]]
 - [[OpenClaw_Migration_Plan]]
 - [[OpenClaw_Workspace_Strategy]]
-- [[Platform_Architecture]]
-- [[Agent_Runtime]]
-- [[Project_Structure]]
+- [[Legacy_Documentation_Index]]

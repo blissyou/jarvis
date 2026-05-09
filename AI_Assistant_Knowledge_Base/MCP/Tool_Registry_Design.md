@@ -1,3 +1,5 @@
+﻿> Legacy note: This document is preserved for historical context. The active direction is [[JARVIS_Voice_Layer_Strategy]].
+
 # Tool Registry Design
 #mcp #registry #discovery #plugins
 
