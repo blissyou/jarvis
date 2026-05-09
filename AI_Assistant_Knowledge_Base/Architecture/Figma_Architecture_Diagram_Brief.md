@@ -15,6 +15,11 @@ OpenClaw = assistant runtime + tools + approvals + sessions + memory
 Legacy runtime/model-router/Ollama = not active MVP path
 ```
 
+## Target Figma File
+Use this Figma file:
+
+https://www.figma.com/design/nDnJetyuye1yAAUTEY7Ejj/%EC%B5%9C%EC%9B%90%ED%98%95-s-team-library?t=Od6uFgmR7cjJGVN3-0
+
 ## Recommended Figma Frame
 - Frame name: `JARVIS OpenClaw-First Voice Architecture`
 - Size: `1920 x 1080`
@@ -119,6 +124,13 @@ Use concise labels inside nodes:
 - `Blocked`
 - `Financial Execution Block`
 
+## Figma Request Comment
+If asking a designer or Figma AI to create the diagram inside the linked file, use this request:
+
+```text
+Please create a new 1920x1080 frame named "JARVIS OpenClaw-First Voice Architecture" in this Figma file. Use the architecture brief below to draw the full OpenClaw-first JARVIS Voice Layer system. The diagram should clearly show that JARVIS is only the Voice Layer + Desktop HUD, while OpenClaw owns runtime, tools, approvals, sessions, memory, and model providers. Please keep legacy/Ollama/custom-router items in a gray off-path box labeled "Legacy / optional research, not active MVP path".
+```
+
 ## Figma Prompt For Designer Or AI Diagram Tool
 Use this prompt if Figma AI, FigJam AI, or a designer is creating the diagram:
 
@@ -162,7 +174,7 @@ After the Figma export exists, add this image near the README `Current Architect
 If the Figma file is public or shareable, also add:
 
 ```markdown
-Figma source: <FIGMA_LINK_HERE>
+Figma source: https://www.figma.com/design/nDnJetyuye1yAAUTEY7Ejj/%EC%B5%9C%EC%9B%90%ED%98%95-s-team-library?t=Od6uFgmR7cjJGVN3-0
 ```
 
 ## Acceptance Criteria

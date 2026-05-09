@@ -50,7 +50,7 @@ JARVIS should not duplicate OpenClaw runtime capabilities. It should make OpenCl
 ## Current Architecture Summary
 The overall architecture should be drawn in Figma using [[Figma_Architecture_Diagram_Brief]].
 
-Figma source: `<FIGMA_LINK_HERE>`
+Figma source: https://www.figma.com/design/nDnJetyuye1yAAUTEY7Ejj/%EC%B5%9C%EC%9B%90%ED%98%95-s-team-library?t=Od6uFgmR7cjJGVN3-0
 
 Image export target:
 
